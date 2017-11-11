@@ -63,6 +63,13 @@ def net(input, is_training, dropout_kept_prob):
 				skip = x
 			x = convolute(x, 1, 512, 512, str(i + 1 + layers1 + layers2 + layers3))
 
+	#FULLYCON
+	x = flatten(x)
+	x = fullycon(x, 4608, 1024,"fcon",True)
+	x = fullycon(x, 1024, 256,"fcon",True)
+	x = fullycon(x, 256, 64 ,"fcon",True)
+	x = fullycon(x, 64 ,10,"fcon",False)
+
 
 		
 	return flf
