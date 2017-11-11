@@ -33,7 +33,7 @@ def net(input, is_training, dropout_kept_prob):
 		if i = 0:
 			x = convolute(x, 1, 128, 256, str(i + 1 + layers1 + layers2))
 		else:
-			x = convolute(x, 1, 128, 256, str(i + 1 + layers1 + layers2))
+			x = convolute(x, 1, 256, 256, str(i + 1 + layers1 + layers2))
 	
 	layers4 = 6
 	for i in range(layers4):
