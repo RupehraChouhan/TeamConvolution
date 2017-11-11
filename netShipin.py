@@ -80,34 +80,7 @@ def net(input, is_training, dropout_kept_prob):
   flf = tf.matmul(fl3, fl3_w) + fl3_b
   #print(flf)
   
-  '''
-  #third convolutional layer
-  conv3_w = tf.Variable(tf.truncated_normal(shape = (5, 5, 16, 32), mean = mu, stddev = sigma), name = 'conv3_w')
-  conv3_b = tf.Variable(tf.zeros(32), name = 'conv2_b')
-  conv3 = tf.nn.conv2d(conv2, conv3_w, strides = [1,1,1,1], padding = 'VALID') + conv3_b #(3,3,32)  
-  #activation function relu
-  conv3 = tf.nn.relu(conv3)
-  #second max pooling
-  conv3 = tf.nn.max_pool(conv3, ksize = [1, 2, 2, 1], strides = [1, 2, 2, 1], padding = 'VALID') 
-  #print('this is conv3', conv3)
-  
-  #forth convolutional layer
-  conv4_w = tf.Variable(tf.truncated_normal(shape = (3, 3, 32, 64), mean = mu, stddev = sigma), name = 'conv4_w')
-  conv4_b = tf.Variable(tf.zeros(64), name = 'conv4_b')
-  conv4 = tf.nn.conv2d(conv3, conv4_w, strides = [1,1,1,1], padding = 'VALID') + conv4_b #(1,1,64)
-  #activation function relu
-  conv4 = tf.nn.relu(conv4)
-  #print('this is conv4', conv4)
-  
-  #fifth fully connected layer
-  fl = flatten(conv4) #(256)
-  #print(fl)
-  fl_w = tf.Variable(tf.truncated_normal(shape = (64, 10), mean = mu, stddev = sigma), name = 'fl_w')
-  fl_b = tf.Variable(tf.zeros(10), name = 'fl_b')
-  fl1 = tf.matmul(fl, fl_w) + fl_b
-  #activation function relu
-  return logits
-  '''
+
   
   return flf
 
