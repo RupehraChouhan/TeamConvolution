@@ -28,7 +28,7 @@ def net(input, is_training, dropout_kept_prob):
 			x = convolute(x,1,1,64, str(i+1))
 			skip = x
 		else:
-			if (i % 2) == 1: # if an odd convolution
+			if (i % 2) == 0: # if an even convolution
 				x = x + skip
 				skip = x
 			x = convolute(x,1,64,64, str(i+1))
@@ -38,7 +38,7 @@ def net(input, is_training, dropout_kept_prob):
 		if i == 0:
 			x = convolute(x, 1, 64, 128, str(i + 1 + layers1))
 		else:
-			if (i % 2) == 1: # if an odd convolution
+			if (i % 2) == 0: # if an even convolution
 				x = x + skip
 				skip = x
 			x = convolute(x, 1, 128, 128, str(i + 1 + layers1))
@@ -48,7 +48,7 @@ def net(input, is_training, dropout_kept_prob):
 		if i == 0:
 			x = convolute(x, 1, 128, 256, str(i + 1 + layers1 + layers2))
 		else:
-			if (i % 2) == 1: # if an odd convolution
+			if (i % 2) == 0: # if an even convolution
 				x = x + skip
 				skip = x
 			x = convolute(x, 1, 256, 256, str(i + 1 + layers1 + layers2))
@@ -58,7 +58,7 @@ def net(input, is_training, dropout_kept_prob):
 		if i == 0:
 			x = convolute(x, 1, 256, 512, str(i + 1 + layers1 + layers2 + layers3))
 		else:
-			if (i % 2) == 1: # if an odd convolution
+			if (i % 2) == 0: # if an even convolution
 				x = x + skip
 				skip = x
 			x = convolute(x, 1, 512, 512, str(i + 1 + layers1 + layers2 + layers3))
