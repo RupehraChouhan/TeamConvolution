@@ -1,9 +1,9 @@
 import numpy as np
 np.set_printoptions(threshold=np.nan)
 
-X_train = np.load('./data/train_X.npy')
-y_train = np.load('./data/train_Y.npy')
-bboxes  = np.load('./data/train_bboxes.npy')
+X_train = np.load('./MNISTDD_train+valid/train_X.npy')
+y_train = np.load('./MNISTDD_train+valid/train_Y.npy')
+bboxes  = np.load('./MNISTDD_train+valid/train_bboxes.npy')
 
 box1 = bboxes[0]
 print("number 1:")
