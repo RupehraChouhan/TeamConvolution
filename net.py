@@ -16,28 +16,28 @@ def net(input, is_training, dropout_kept_prob):
 	#our network
 	layers1 = 6
 	for i in range(layers1):
-		if i = 0:
-			x = convolute(x,1,1,64, str(i+1))
+		if i == 0:
+			x = convolute(x, 1, 1, 64, str(i+1))
 		else:
-			x = convolute(x,1,64,64, str(i+1))
+			x = convolute(x, 1, 64, 64, str(i+1))
 
 	layers2 = 8
 	for i in range(layers2):
-		if i = 0:
-			x = convolute(x,1,64,128, str(i + 1 + layers1))
+		if i == 0:
+			x = convolute(x, 1, 64, 128, str(i + 1 + layers1))
 		else:
-			x = convolute(x,1,128,128, str(i + 1 + layers1))
+			x = convolute(x, 1, 128, 128, str(i + 1 + layers1))
 	
 	layers3 = 12
 	for i in range(layers3):
-		if i = 0:
+		if i == 0:
 			x = convolute(x, 1, 128, 256, str(i + 1 + layers1 + layers2))
 		else:
 			x = convolute(x, 1, 256, 256, str(i + 1 + layers1 + layers2))
 	
 	layers4 = 6
 	for i in range(layers4):
-		if i = 0:
+		if i == 0:
 			x = convolute(x, 1, 256, 512, str(i + 1 + layers1 + layers2 + layers3))
 		else:
 			x = convolute(x, 1, 512, 512, str(i + 1 + layers1 + layers2 + layers3))
