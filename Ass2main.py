@@ -1,15 +1,14 @@
 import numpy as np
 import timeit
-from net import train, test
-from cifar10 import Cifar10
+from code.mnisdd_classify import mnisdd_classify
 from collections import OrderedDict
 from pprint import pformat
 
-
 if __name__ == '__main__':
     TRAIN = True
+    X_train = np.load('./MNISTDD_train+valid/train_X.npy')
     if TRAIN:
-        train()
+        mnisdd_classify(X_train)
     X_test = np.load('./MNISTDD_train+valid/valid_X.npy')
     y_test = np.load('./MNISTDD_train+valid/valid_Y.npy')
     bboxes  = np.load('./MNISTDD_train+valid/train_bboxes.npy')
