@@ -10,18 +10,19 @@ if __name__ == '__main__':
     TRAIN = True
     if TRAIN:
         train()
-    cifar10_test = Cifar10(test=True, shuffle=False, one_hot=False)
-    cifar10_test_images, cifar10_test_labels = cifar10_test._images, cifar10_test._labels
+    X_test = np.load('./MNISTDD_train+valid/valid_X.npy')
+    y_test = np.load('./MNISTDD_train+valid/valid_Y.npy')
+    bboxes  = np.load('./MNISTDD_train+valid/train_bboxes.npy')
 
     start = timeit.default_timer()
     np.random.seed(0)
-    predicted_cifar10_test_labels = test(cifar10_test_images)
+    predicted_test_labels = test(X_test)
     np.random.seed()
     stop = timeit.default_timer()
     run_time = stop - start
-    correct_predict = (cifar10_test_labels.flatten() == predicted_cifar10_test_labels.flatten()).astype(np.int32).sum()
-    incorrect_predict = len(cifar10_test_labels) - correct_predict
-    accuracy = float(correct_predict) / len(cifar10_test_labels)
+    correct_predict = (y_test.flatten() == predicted_test_labels.flatten()).astype(np.int32).sum()
+    incorrect_predict = len(y_test) - correct_predict
+    accuracy = float(correct_predict) / len(y_test)
     result = OrderedDict(
         correct_predict=correct_predict,
         accuracy=accuracy,
