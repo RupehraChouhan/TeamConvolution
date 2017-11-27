@@ -3,7 +3,7 @@ import numpy as np
 
 
 class TextureImages(object):
-    def __init__(self, subset='train', batch_size=64, shuffle=True):
+    def __init__(self, subset='train', batch_size=5000, shuffle=True):
         if subset == 'train':
             images = np.load('train_X.npy')
             labels = np.load('train_Y.npy')

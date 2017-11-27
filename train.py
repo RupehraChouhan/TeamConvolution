@@ -3,6 +3,7 @@ import numpy as np
 from loadData import TextureImages
 from tensorflow.contrib.layers import flatten
 from utility import *
+import time
 
 def model(x, keep_prob, is_training):
     #conv 1
@@ -72,10 +73,10 @@ def model(x, keep_prob, is_training):
 
 def train():
     
-    EPOCHS = 10
+    
     BATCH_SIZE = 64
     drop_out = 0.5
-    NUM_ITERS  = int(2000 / BATCH_SIZE * EPOCHS)
+    
     
     train_set = TextureImages('train', batch_size=BATCH_SIZE)
     valid_set = TextureImages('valid', shuffle=False)
@@ -118,7 +119,8 @@ def train():
     #prediction = tf.equal(tf.argmax(logit1, 1), tf.argmax(y, 1)) and tf.equal(tf.argmax(logit2, 1), tf.argmax(y, 2))
         
     #accuracy = tf.reduce_mean(tf.cast(prediction, tf.float32))
-    steps = 10002
+    start_time = time.time()
+    steps = 60002
     sess = tf.Session()
     with sess:
         sess.run(tf.global_variables_initializer())
@@ -129,6 +131,7 @@ def train():
                 print("step: ", i, " |Current loss: ", l)
                 acc = accuracy(l1,l2,batch_y)
                 print("With training accuracy: ", acc)
+                print("Time consumed: %.2f" % ((time.time() - start_time)/3600), " hours.")
             if i % 5000 == 1:
                 print("Testing on validation set.")
                 valid_x, valid_y = valid_set.get_next_batch()
