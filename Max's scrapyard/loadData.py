@@ -5,11 +5,11 @@ import numpy as np
 class TextureImages(object):
     def __init__(self, subset='train', batch_size=64, shuffle=True):
         if subset == 'train':
-            images = np.load('train_X.npy')
-            labels = np.load('train_Y.npy')
+            images = np.load('../MNISTDD_train+valid/train_X.npy')
+            labels = np.load('../MNISTDD_train+valid/train_Y.npy')
         elif subset == 'valid':
-            images = np.load('valid_X.npy')
-            labels = np.load('valid_Y.npy')
+            images = np.load('../MNISTDD_train+valid/valid_X.npy')
+            labels = np.load('../MNISTDD_train+valid/valid_Y.npy')
         else:
             raise NotImplementedError
         self._images = images

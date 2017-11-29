@@ -70,12 +70,7 @@ def model(x, keep_prob, is_training):
     return logit1, logit2
 
 
-def train():
-    
-    EPOCHS = 10
-    BATCH_SIZE = 64
-    drop_out = 0.5
-    NUM_ITERS  = int(2000 / BATCH_SIZE * EPOCHS)
+def train(EPOCHS=150, BATCH_SIZE=64, drop_out=0.5, lr=0.001, decay=True):
     
     train_set = TextureImages('train', batch_size=BATCH_SIZE)
     valid_set = TextureImages('valid', shuffle=False)
@@ -83,7 +78,7 @@ def train():
     tf.reset_default_graph()
     
     images, labels = train_set.get_next_batch()
-    print("iamge shape:", images[0].shape)
+    print("image shape:", images[0].shape)
     print("label shape:", labels[0].shape)
        
     x = tf.placeholder(tf.float32, (None, 64, 64, 1))
@@ -103,8 +98,8 @@ def train():
     #f.close
     #print(images[0].shape)
     global_step = tf.Variable(0)
-    lr = 0.001
-    decaylr = tf.train.exponential_decay(lr, global_step, 5000, 0.096)
+    if (decay):
+        decaylr = tf.train.exponential_decay(lr, global_step, 5000, 0.096)
     #print(logit1, logit2)
     #print(y)
     
@@ -118,7 +113,7 @@ def train():
     #prediction = tf.equal(tf.argmax(logit1, 1), tf.argmax(y, 1)) and tf.equal(tf.argmax(logit2, 1), tf.argmax(y, 2))
         
     #accuracy = tf.reduce_mean(tf.cast(prediction, tf.float32))
-    steps = 10002
+    steps  = BATCH_SIZE * EPOCHS
     sess = tf.Session()
     with sess:
         sess.run(tf.global_variables_initializer())
@@ -126,18 +121,53 @@ def train():
             batch_x, batch_y = train_set.get_next_batch()
             _,l,l1,l2 = sess.run([optimizer, loss,logit1, logit2], feed_dict = {x:batch_x, y:batch_y})
             if i % 1000 == 1:
-                print("step: ", i, " |Current loss: ", l)
+                print("step: ", i, "; Current loss: ", l)
                 acc = accuracy(l1,l2,batch_y)
-                print("With training accuracy: ", acc)
+                print("Training accuracy: ", acc)
             if i % 5000 == 1:
-                print("Testing on validation set.")
                 valid_x, valid_y = valid_set.get_next_batch()
                 valid1,valid2 = sess.run([logit1, logit2], feed_dict = {x:batch_x})
                 acc = accuracy(valid1, valid2, batch_y)
                 print("Validation accuracy: ", acc)
-                
 
-def main():
-    train()
+        # Need to do a validation here after all the training
+        # I'll leave that to you, Max, since you were going to change how validation worked anyway
+        # valid_x, valid_y = valid_set.get_next_batch()
+        # valid1,valid2 = sess.run([logit1, logit2], feed_dict = {x:batch_x})
+        # acc = accuracy(valid1, valid2, batch_y)
+        # print("Validation accuracy: ", acc)
+
+    return acc
+
+
 if __name__ == "__main__":
-    main()
+    grid_search = True
+
+    if (not grid_search):
+        train()
+    else:
+        epochs = [150, 200, 250, 300, 400, 500]
+        batch_sizes = [64, 32, 16]
+        dropout = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
+        learning_rates = [0.001, 0.002, 0.003, 0.004, 0.005, 0.0009, 0.0008, 0.0007, 0.0006, 0.0005, 0.01]
+
+        print("Running Training with grid search " + str(len(epochs) * len(batch_sizes) * len(dropout) * len(learning_rates)) + " times.")
+
+        my_file = open("hypers.csv", "w")
+        my_file.write("epochs, batch_size, dropout, learning_rate, decay, accuracy\n")
+        my_file.close()
+
+        for e in epochs:
+            for b in batch_sizes:
+                for d in dropout:
+                    for lr in learning_rates:
+                        for decay in range(2): # either 0 or 1; False or True
+                            print("Epochs: " + str(e) + "; Batch size: " + str(b) + "; Dropout: " + str(d) + "; Learning rate: " + str(lr) + "; Decay: " + str(decay))
+                            my_file = open("hypers.csv", "a+")
+                            my_file.write(str(e) + ", " + str(b) + ", " + str(d) + ", " + str(lr) + ", " + str(decay) + ", ")
+                            my_file.close()
+                            acc = train(EPOCHS=e, BATCH_SIZE=b, drop_out=d, lr=lr, decay=decay)
+                            my_file = open("hypers.csv", "a+")
+                            my_file.write(str(acc) + "\n")
+                            my_file.close()
+
