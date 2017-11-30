@@ -66,5 +66,5 @@ class TextureImages(object):
         for itemx in set_x:
             temp_x.append(itemx.reshape(64,64,1))
         for itemy in set_y:
-            tempy.append(np.reshape(item, (2)))
+            temp_y.append(np.reshape(itemy, (2)))
         return temp_x, temp_y

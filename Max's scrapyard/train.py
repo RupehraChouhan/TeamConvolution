@@ -125,9 +125,10 @@ def train(EPOCHS=150, BATCH_SIZE=64, drop_out=0.1, lr=0.005):
             batch_x, batch_y = train_set.get_next_batch()
             _,l,l1,l2 = sess.run([optimizer, loss,logit1, logit2], feed_dict = {x:batch_x, y:batch_y})
             if i % 1000 == 1:
-                print("step: ", i, "; Current loss: ", l)
+                print("step: " + str(i) + "; Current loss: " + str(l))
                 acc = accuracy(l1,l2,batch_y)
                 print("Training accuracy: ", acc)
+                print()
                 saver.save(sess, 'ckpt/teamConvolution', global_step=i)
 
 def test(EPOCHS=150, BATCH_SIZE=64, drop_out=0.5, lr=0.001):
@@ -176,15 +177,15 @@ def test(EPOCHS=150, BATCH_SIZE=64, drop_out=0.5, lr=0.001):
 
     acc = accuracy(valids1, valids2, validys)
     print("Validation accuracy: ", acc)
-
     return acc
 
 
 if __name__ == "__main__":
-    grid_search = True
+    grid_search = False
 
     if (not grid_search):
-        test()
+        train(EPOCHS=150, BATCH_SIZE=64, drop_out=0.1, lr=0.005)
+        acc = test(EPOCHS=150, BATCH_SIZE=64, drop_out=0.1, lr=0.005)
     else:
         epochs = [150, 100]
         batch_sizes = [64, 32, 16]
