@@ -3,7 +3,7 @@ import numpy as np
 
 
 class TextureImages(object):
-    def __init__(self, subset='train', batch_size=5000, shuffle=True):
+    def __init__(self, subset='train', batch_size=64, shuffle=True):
         if subset == 'train':
             images = np.load('train_X.npy')
             labels = np.load('train_Y.npy')
@@ -57,3 +57,17 @@ class TextureImages(object):
                 temp_y.append(np.reshape(itemy,(2)))             
             self.next_batch_pointer = self.batch_size - num_samples_left
         return temp_x, temp_y
+    
+    
+    
+    
+    def get_full_set(self):
+        set_x = self.images
+        set_y = self.labels
+        temp_x = []
+        temp_y = []
+        for itemx in set_x:
+            temp_x.append( itemx.reshape(64,64,1))   
+        for itemy in set_y:
+            temp_y.append(np.reshape(itemy,(2)))        
+        return temp_x, temp_y  
