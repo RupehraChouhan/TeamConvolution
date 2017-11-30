@@ -4,7 +4,8 @@ from loadData import TextureImages
 from tensorflow.contrib.layers import flatten
 from utility import *
 
-def model(x, keep_prob, is_training):
+def model(x, dropout, is_training):
+    keep_prob = 1-dropout
     #conv 1
     #input: (64, 64, 1)
     #output: (30, 30, 16)
@@ -98,8 +99,7 @@ def train(EPOCHS=150, BATCH_SIZE=64, drop_out=0.5, lr=0.001, decay=True):
     #f.close
     #print(images[0].shape)
     global_step = tf.Variable(0)
-    if (decay):
-        decaylr = tf.train.exponential_decay(lr, global_step, 5000, 0.096)
+    decaylr = tf.train.exponential_decay(lr, global_step, 5000, 0.096)
     #print(logit1, logit2)
     #print(y)
     
@@ -108,7 +108,7 @@ def train(EPOCHS=150, BATCH_SIZE=64, drop_out=0.5, lr=0.001, decay=True):
     optimizer = tf.train.AdamOptimizer(learning_rate = lr).minimize(loss, global_step = global_step)
     
     #if tf.greater_equal(tf.argmax(logit1, 1), tf.argmax(logit2, 1)):
-    prediction = tf.logical_and(tf.equal(tf.argmax(logit2, 1), tf.argmax(y[0])), tf.equal(tf.argmax(logit1, 1), tf.argmax(y[1])))
+    #prediction = tf.logical_and(tf.equal(tf.argmax(logit2, 1), tf.argmax(y[0])), tf.equal(tf.argmax(logit1, 1), tf.argmax(y[1])))
     #else: 
     #prediction = tf.equal(tf.argmax(logit1, 1), tf.argmax(y, 1)) and tf.equal(tf.argmax(logit2, 1), tf.argmax(y, 2))
         
@@ -124,18 +124,14 @@ def train(EPOCHS=150, BATCH_SIZE=64, drop_out=0.5, lr=0.001, decay=True):
                 print("step: ", i, "; Current loss: ", l)
                 acc = accuracy(l1,l2,batch_y)
                 print("Training accuracy: ", acc)
-            if i % 5000 == 1:
-                valid_x, valid_y = valid_set.get_next_batch()
-                valid1,valid2 = sess.run([logit1, logit2], feed_dict = {x:batch_x})
-                acc = accuracy(valid1, valid2, batch_y)
-                print("Validation accuracy: ", acc)
 
         # Need to do a validation here after all the training
         # I'll leave that to you, Max, since you were going to change how validation worked anyway
-        # valid_x, valid_y = valid_set.get_next_batch()
-        # valid1,valid2 = sess.run([logit1, logit2], feed_dict = {x:batch_x})
-        # acc = accuracy(valid1, valid2, batch_y)
-        # print("Validation accuracy: ", acc)
+        valid_x, valid_y = valid_set.get_full_set()
+        print("Length of the validation set: ", len(valid_x))
+        valid1,valid2 = sess.run([logit1, logit2], feed_dict = {x:valid_x})
+        acc = accuracy(valid1, valid2, batch_y)
+        print("Validation accuracy: ", acc)
 
     return acc
 
@@ -146,7 +142,7 @@ if __name__ == "__main__":
     if (not grid_search):
         train()
     else:
-        epochs = [150, 200, 250, 300, 400, 500]
+        epochs = [150, 300]
         batch_sizes = [64, 32, 16]
         dropout = [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
         learning_rates = [0.001, 0.002, 0.003, 0.004, 0.005, 0.0009, 0.0008, 0.0007, 0.0006, 0.0005, 0.01]
