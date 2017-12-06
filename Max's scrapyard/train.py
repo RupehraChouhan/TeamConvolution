@@ -74,7 +74,9 @@ def model(x, dropout, is_training):
     return logit1, logit2
 
 
+
 def train(EPOCHS=900, BATCH_SIZE=64, drop_out=0.1, lr=0.003):
+
     
     train_set = TextureImages('train', batch_size = BATCH_SIZE)
     valid_set = TextureImages('valid', shuffle = False)
@@ -170,6 +172,7 @@ def train(EPOCHS=900, BATCH_SIZE=64, drop_out=0.1, lr=0.003):
                 saver.save(sess, 'ckpt/checkpoint', global_step = i)
             
         # Need to do a validation here after all the training
+
         acc = evaluation(valid_set,BATCH_SIZE)
         print("Validation accuracy: ", acc)
 
@@ -182,7 +185,9 @@ if __name__ == "__main__":
     if (not grid_search):
         train()
     else:
+
         epochs = [400]
+
         batch_sizes = [64, 32, 16]
         dropout = [0.5, 0.8, 0.7, 0.6, 0.9, 0.4, 0.3, 0.2, 0.1]
         learning_rates = [0.001, 0.002, 0.003, 0.004, 0.005, 0.0009, 0.0008, 0.0007, 0.0006, 0.0005, 0.01]
