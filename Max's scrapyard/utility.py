@@ -53,16 +53,31 @@ def accuracy(l1,l2,batch_y):
         out[index].append(temp.index(max(item)))
         out[index].sort()
         index = index + 1
-    lab = [] 
-    id = 0
+        
+    index = 0
     correct_count = 0
+    score = 0
+    count_both_correct = 0
+    count_one_correct = 0
+    none_correct = 0
     for item in batch_y:
         c = []
         for n in item:
             c.append(n)
-        #lab.append(a)
-        if c == out[id]:
+        if c == out[index]:
             correct_count += 1
-        #print(c, out[id])
-        id += 1  
-    return correct_count/len(out)*100
+            score += 3
+            count_both_correct += 1
+        elif ((c[0] == out[index][0]) or (c[1] == out[index][1])):
+            score += 1
+            count_one_correct += 1
+        else:
+            none_correct += 1
+        #print(c, out[index])
+        index += 1 
+    print("Both digits correct: " + str(count_both_correct))
+    print("One digit correct: " + str(count_one_correct))
+    print("Both digits incorrect: " + str(none_correct))
+    print("Score: " + str(score) + " out of " + str(len(batch_y)*3))
+    return out, correct_count/len(out)*100    
+    

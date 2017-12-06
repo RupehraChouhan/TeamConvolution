@@ -1,0 +1,4 @@
+model_checkpoint_path: "checkpoint-38001"
+all_model_checkpoint_paths: "checkpoint-36001"
+all_model_checkpoint_paths: "checkpoint-37001"
+all_model_checkpoint_paths: "checkpoint-38001"

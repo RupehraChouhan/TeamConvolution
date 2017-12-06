@@ -1,0 +1,27 @@
+This is Team Convolution's final model for the Term project.
+
+Instruction on how to run the model:
+	1. Put the test dataset (both the image set and label set) to where the "final" folder is.
+
+	2. change the image dataset to name: "test_X.npy".
+
+	3. change the label dataset to name: "test_Y.npy".
+
+	4. Assume both dataset has the same data structure as the provided validation set.
+
+	5. Use "python train.py" to run the program.
+
+	6. Training will be skipped if there is a ckpt/checkpoint file exist.
+
+Member of Team Convolution: 
+	Eric Hsueh
+	Rupehra Chouhan
+	Shipin Guan
+	Spencer Plant
+
+Reference:(complete reference can be found in reports)
+	1. https://github.com/ritchieng/NumNum/blob/master/NumNum/report/report.pdf
+	2. https://matthewearl.github.io/2016/05/06/cnn-anpr/
+	3. https://github.com/potterhsu/SVHNClassifier
+
+PS: No one gets hurt during the production of this network.
